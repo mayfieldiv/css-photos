@@ -1,4 +1,20 @@
-# CustomBattle
+# css.photos
+
+## TODO
+
+1. scorer
+   1. compare images
+      1. two images of equal size
+      2. compares equality of each pixel
+      3. all color values within 1% threshold
+   2. inverse exponential score from stripped/minified character count
+2. html/css editor
+   1. monaco
+3. html/css preview
+   1. slider for preview/target comparison
+4. upload custom image to target
+
+# Auto-generated
 
 This project was generated using [Nx](https://nx.dev).
 
@@ -41,7 +57,7 @@ Run `nx g @nrwl/react:lib my-lib` to generate a library.
 
 > You can also use any of the plugins above to generate libraries as well.
 
-Libraries are sharable across libraries and applications. They can be imported from `@custom-battle/mylib`.
+Libraries are sharable across libraries and applications. They can be imported from `@css-photos/mylib`.
 
 ## Development server
 

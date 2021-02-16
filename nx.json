@@ -1,22 +1,17 @@
 {
-  "npmScope": "custom-battle",
+  "npmScope": "css-photos",
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
     "tsconfig.json": "*",
     "tslint.json": "*",
     "nx.json": "*"
   },
   "projects": {
-    "custom-battle": {
-      "tags": []
-    },
-    "custom-battle-e2e": {
+    "css-photos": { "tags": [] },
+    "css-photos-e2e": {
       "tags": [],
-      "implicitDependencies": ["custom-battle"]
+      "implicitDependencies": ["css-photos"]
     }
   }
 }
