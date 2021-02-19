@@ -9,9 +9,7 @@
   },
   "projects": {
     "css-photos": { "tags": [] },
-    "css-photos-e2e": {
-      "tags": [],
-      "implicitDependencies": ["css-photos"]
-    }
+    "css-photos-e2e": { "tags": [], "implicitDependencies": ["css-photos"] },
+    "ui": { "tags": [] }
   }
 }
