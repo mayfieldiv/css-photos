@@ -2,19 +2,24 @@ import 'normalize.css';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { HtmlPreview } from '@css-photos/ui';
+import { HtmlEditor, HtmlPreview } from '@css-photos/ui';
+
+const EditorContainer = styled.div`
+  flex: 1 1;
+  overflow: hidden;
+
+  > * {
+    height: 100%;
+  }
+`;
 
 const StyledApp = styled.div`
   display: flex;
-  height: 100vh;
+  height: 100%;
 
   > * {
-    min-width: 25rem;
-    min-height: 100vh;
-  }
-
-  textarea {
-    flex-grow: 1;
+    min-width: 10rem;
+    height: 100%;
   }
 `;
 
@@ -34,13 +39,9 @@ div {
   return (
     <React.StrictMode>
       <StyledApp>
-        <textarea
-          onInput={(event) =>
-            setHtmlSource((event.target as HTMLTextAreaElement).value)
-          }
-          defaultValue={htmlSource}
-          style={{ height: '300px' }}
-        />
+        <EditorContainer>
+          <HtmlEditor defaultValue={htmlSource} onChange={setHtmlSource} />
+        </EditorContainer>
         <HtmlPreview htmlSource={htmlSource} width="400px" height="300px" />
       </StyledApp>
     </React.StrictMode>
