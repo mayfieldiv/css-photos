@@ -7,12 +7,6 @@ export interface HtmlPreviewProps {
   height: string;
 }
 
-const Container = styled.div`
-  padding: 1.25rem;
-  display: flex;
-  justify-content: center;
-`;
-
 const Preview = styled.iframe`
   background: white;
   border: 0;
@@ -29,15 +23,13 @@ export class HtmlPreview extends React.PureComponent<HtmlPreviewProps> {
 
   render() {
     return (
-      <Container>
-        <Preview
-          ref={this.frameRef}
-          // allow-same-origin to access contentDocument
-          sandbox="allow-same-origin"
-          height={this.props.height}
-          width={this.props.width}
-        ></Preview>
-      </Container>
+      <Preview
+        ref={this.frameRef}
+        // allow-same-origin to access contentDocument
+        sandbox="allow-same-origin"
+        height={this.props.height}
+        width={this.props.width}
+      ></Preview>
     );
   }
 
