@@ -1,3 +1,4 @@
+import 'normalize.css';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
