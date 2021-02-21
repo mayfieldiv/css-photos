@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { EyeDropper, HtmlEditor, HtmlPreview } from '@css-photos/ui';
-import ox from './ox.png';
+import { ReactComponent as EyeDropperIcon } from './eye-dropper.svg';
+import OxImage from './ox.png';
 
 const StyledApp = styled.div`
   display: flex;
@@ -30,10 +31,35 @@ const Column = styled.div`
   flex-direction: column;
 `;
 
-const ColorBox = styled.input`
-  padding: 0.3em;
-  margin-top: 0.5em;
-  width: 5em;
+const EyeDropperButton = styled.button`
+  background: none;
+  /* height: 100%; */
+  text-align: center;
+  border: 0;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  margin-right: 0.6rem;
+
+  :hover {
+    background-color: hsl(0, 0%, 28%);
+  }
+  :active {
+    background-color: hsl(0, 0%, 26%);
+  }
+`;
+
+const ColorPickerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  /* height: 2rem; */
+`;
+
+const ColorPickerBox = styled.input`
+  padding: 0.5em;
+  /* height: 100%; */
+  width: 4em;
   border: 1px solid;
   text-align: center;
   font-family: monospace;
@@ -56,7 +82,7 @@ div {
 `);
   const [dimensions, setDimensions] = useState({ width: 400, height: 350 });
   const [color, setColor] = useState(Color.rgb(0, 0, 0));
-  const [colorPickerDisabled, setColorPickerDisabled] = useState(true);
+  const [colorPickerEnabled, setColorPickerEnabled] = useState(false);
 
   const dimensionProps = {
     width: dimensions.width + 'px',
@@ -78,27 +104,41 @@ div {
         </Column>
         <Column style={minDimensionProps}>
           <EyeDropper
-            disabled={colorPickerDisabled}
+            disabled={!colorPickerEnabled}
             onColorHovered={setColor}
             onColorClicked={(color) => {
               setColor(color);
-              setColorPickerDisabled(true);
+              setColorPickerEnabled(false);
             }}
           >
-            <img src={ox} {...dimensionProps} />
+            <img
+              src={OxImage}
+              alt=""
+              {...dimensionProps}
+              style={{ cursor: colorPickerEnabled ? 'crosshair' : 'default' }}
+            />
           </EyeDropper>
-          <button onClick={() => setColorPickerDisabled(!colorPickerDisabled)}>
-            Eye-dropper {colorPickerDisabled ? 'disabled' : 'enabled'}
-          </button>
-          <ColorBox
-            type="text"
-            value={color.hex()}
-            style={{
-              backgroundColor: color.hex(),
-              color: color.isDark() ? 'white' : 'black',
-            }}
-            readOnly
-          />
+          <ColorPickerContainer>
+            <EyeDropperButton
+              onClick={() => setColorPickerEnabled(!colorPickerEnabled)}
+              title="Toggle color picker"
+            >
+              <EyeDropperIcon
+                width="25"
+                height="25"
+                fill={colorPickerEnabled ? '#0078D7' : 'white'}
+              />
+            </EyeDropperButton>
+            <ColorPickerBox
+              type="text"
+              value={color.hex()}
+              style={{
+                backgroundColor: color.hex(),
+                color: color.isDark() ? 'white' : 'black',
+              }}
+              readOnly
+            />
+          </ColorPickerContainer>
         </Column>
       </StyledApp>
     </React.StrictMode>
