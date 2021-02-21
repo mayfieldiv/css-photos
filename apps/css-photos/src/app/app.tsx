@@ -21,15 +21,24 @@ const EditorContainer = styled.div`
   }
 `;
 
-const Column = styled.div<{ minWidth: string; minHeight: string }>`
+const Column = styled.div`
   box-sizing: content-box;
-  min-width: ${(props) => props.minWidth};
-  min-height: ${(props) => props.minHeight};
   padding: 1.25rem;
   border-left: 1px solid #27313a;
   display: flex;
   align-items: center;
   flex-direction: column;
+`;
+
+const ColorBox = styled.input`
+  padding: 0.3em;
+  margin-top: 0.5em;
+  width: 5em;
+  border: 1px solid;
+  text-align: center;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 1.3rem;
 `;
 
 export function App() {
@@ -47,10 +56,15 @@ div {
 `);
   const [dimensions, setDimensions] = useState({ width: 400, height: 350 });
   const [color, setColor] = useState(Color.rgb(0, 0, 0));
+  const [colorPickerDisabled, setColorPickerDisabled] = useState(true);
 
   const dimensionProps = {
     width: dimensions.width + 'px',
     height: dimensions.height + 'px',
+  };
+  const minDimensionProps = {
+    minWidth: dimensionProps.width,
+    minHeight: dimensionProps.height,
   };
 
   return (
@@ -59,33 +73,29 @@ div {
         <EditorContainer>
           <HtmlEditor defaultValue={htmlSource} onChange={setHtmlSource} />
         </EditorContainer>
-        <Column
-          minWidth={dimensionProps.width}
-          minHeight={dimensionProps.height}
-        >
+        <Column style={minDimensionProps}>
           <HtmlPreview htmlSource={htmlSource} {...dimensionProps} />
         </Column>
-        <Column
-          minWidth={dimensionProps.width}
-          minHeight={dimensionProps.height}
-        >
-          <EyeDropper onColorPick={setColor}>
+        <Column style={minDimensionProps}>
+          <EyeDropper
+            disabled={colorPickerDisabled}
+            onColorHovered={setColor}
+            onColorClicked={(color) => {
+              setColor(color);
+              setColorPickerDisabled(true);
+            }}
+          >
             <img src={ox} {...dimensionProps} />
           </EyeDropper>
-          <input
+          <button onClick={() => setColorPickerDisabled(!colorPickerDisabled)}>
+            Eye-dropper {colorPickerDisabled ? 'disabled' : 'enabled'}
+          </button>
+          <ColorBox
             type="text"
             value={color.hex()}
             style={{
               backgroundColor: color.hex(),
               color: color.isDark() ? 'white' : 'black',
-              padding: '0.3em',
-              marginTop: '0.5em',
-              width: '5em',
-              border: '1px solid',
-              textAlign: 'center',
-              fontFamily: 'monospace',
-              fontWeight: 'bold',
-              fontSize: '1.3rem',
             }}
             readOnly
           />

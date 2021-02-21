@@ -3,19 +3,15 @@ import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 export interface EyeDropperProps {
-  onColorPick: (color: Color) => void;
+  disabled?: boolean;
+  onColorHovered?: (color: Color) => void;
+  onColorClicked?: (color: Color) => void;
 }
 
 export const EyeDropper: FunctionComponent<EyeDropperProps> = (props) => {
-  const [enabled, setEnabled] = useState(true);
-  const [color, setColor] = useState(Color.rgb(0, 0, 0));
+  const [clickedColor, setClickedColor] = useState(Color.rgb(0, 0, 0));
   const [childElement, setChildElement] = useState<HTMLImageElement>();
   const canvasRef = useRef<HTMLCanvasElement>();
-
-  function updateColor(color: Color) {
-    setColor(color);
-    props.onColorPick(color);
-  }
 
   useEffect(() => {
     const img = childElement;
@@ -35,6 +31,22 @@ export const EyeDropper: FunctionComponent<EyeDropperProps> = (props) => {
     };
   }, [childElement]);
 
+  function tryReadColor(event: MouseEvent): Color | undefined {
+    if (props.disabled) {
+      return;
+    }
+    const canvas = canvasRef.current;
+    if (canvas == null) {
+      console.log('canvas is null');
+      return;
+    }
+
+    const x = event.pageX - childElement.offsetLeft;
+    const y = event.pageY - childElement.offsetTop;
+
+    return Color.rgb(canvas.getContext('2d').getImageData(x, y, 1, 1).data);
+  }
+
   return (
     <>
       {React.cloneElement(
@@ -48,22 +60,23 @@ export const EyeDropper: FunctionComponent<EyeDropperProps> = (props) => {
             console.log('onLoad');
             setChildElement(event.target as HTMLImageElement);
           },
+          onClick: (event: MouseEvent) => {
+            const color = tryReadColor(event);
+            if (color) {
+              setClickedColor(color);
+              props.onColorClicked?.(color);
+            }
+          },
           onMouseMove: (event: MouseEvent) => {
-            if (!enabled) {
-              return;
+            const color = tryReadColor(event);
+            if (color) {
+              props.onColorHovered?.(color);
             }
-            const canvas = canvasRef.current;
-            if (canvas == null) {
-              console.log('canvas is null');
-              return;
+          },
+          onMouseLeave: () => {
+            if (!props.disabled) {
+              props.onColorHovered?.(clickedColor);
             }
-
-            const x = event.pageX - childElement.offsetLeft;
-            const y = event.pageY - childElement.offsetTop;
-
-            updateColor(
-              Color.rgb(canvas.getContext('2d').getImageData(x, y, 1, 1).data)
-            );
           },
         }
       )}
