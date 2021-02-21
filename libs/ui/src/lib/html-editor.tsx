@@ -1,19 +1,14 @@
 import Editor from '@monaco-editor/react';
 import React from 'react';
-import styled from 'styled-components';
 
 export interface HtmlEditorProps {
   defaultValue?: string;
   onChange?: (value: string | undefined) => void;
 }
 
-const StyledHtmlEditor = styled.div`
-  color: pink;
-`;
-
 export function HtmlEditor(props: HtmlEditorProps) {
   return (
-    <StyledHtmlEditor>
+    <div>
       <Editor
         theme="vs-dark"
         defaultLanguage="html"
@@ -24,7 +19,7 @@ export function HtmlEditor(props: HtmlEditorProps) {
           scrollBeyondLastLine: false,
         }}
       ></Editor>
-    </StyledHtmlEditor>
+    </div>
   );
 }
 

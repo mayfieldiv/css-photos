@@ -23,7 +23,7 @@
 4. target
 
    - [x] preview image
-   - [ ] eyedropper to copy color
+   - [x] eyedropper to copy color
 
 5. upload custom image to target
 
