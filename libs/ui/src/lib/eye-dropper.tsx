@@ -1,21 +1,18 @@
+import Color from 'color';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 export interface EyeDropperProps {
-  // children: [React.ReactElement];
-  onColorPick: (color) => void;
+  onColorPick: (color: Color) => void;
 }
 
-const StyledEyeDropper = styled.div`
-  color: pink;
-`;
-
 export const EyeDropper: FunctionComponent<EyeDropperProps> = (props) => {
-  const [color, setColor] = useState('#000000');
+  const [enabled, setEnabled] = useState(true);
+  const [color, setColor] = useState(Color.rgb(0, 0, 0));
   const [childElement, setChildElement] = useState<HTMLImageElement>();
   const canvasRef = useRef<HTMLCanvasElement>();
 
-  function updateColor(color) {
+  function updateColor(color: Color) {
     setColor(color);
     props.onColorPick(color);
   }
@@ -43,36 +40,33 @@ export const EyeDropper: FunctionComponent<EyeDropperProps> = (props) => {
       {React.cloneElement(
         React.Children.only(props.children as React.ReactElement),
         {
-          onError: (event) => {
+          onError: () => {
             console.log('onError');
             setChildElement(null);
           },
-          onLoad: (event) => {
+          onLoad: (event: Event) => {
             console.log('onLoad');
-            setChildElement(event.target);
+            setChildElement(event.target as HTMLImageElement);
           },
-          onMouseMove: (event) => {
+          onMouseMove: (event: MouseEvent) => {
+            if (!enabled) {
+              return;
+            }
             const canvas = canvasRef.current;
             if (canvas == null) {
               console.log('canvas is null');
               return;
             }
-            // console.log('imgRef', imgRef.current);
-            // console.log('canvasRef', canvas);
-            const x = event.clientX - event.target.offsetLeft;
-            const y = event.clientY - event.target.offsetTop;
-            var pixelData = canvas.getContext('2d').getImageData(x, y, 1, 1)
-              .data;
 
-            const [r, g, b, a] = pixelData;
-            const rgb = `rgb(${r},${g},${b})`;
-            const toHex = (n: number) => n.toString(16).toUpperCase().padStart(2, '0');
-            const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`
-            updateColor(hex);
+            const x = event.pageX - childElement.offsetLeft;
+            const y = event.pageY - childElement.offsetTop;
+
+            updateColor(
+              Color.rgb(canvas.getContext('2d').getImageData(x, y, 1, 1).data)
+            );
           },
         }
       )}
-      <StyledEyeDropper></StyledEyeDropper>
     </>
   );
 };

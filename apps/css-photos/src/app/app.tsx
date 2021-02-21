@@ -1,9 +1,10 @@
+import Color from 'color';
 import 'normalize.css';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import ox from './ox.png';
 
 import { EyeDropper, HtmlEditor, HtmlPreview } from '@css-photos/ui';
+import ox from './ox.png';
 
 const StyledApp = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ div {
 </style>
 `);
   const [dimensions, setDimensions] = useState({ width: 400, height: 350 });
-  const [color, setColor] = useState('#000000');
+  const [color, setColor] = useState(Color.rgb(0, 0, 0));
 
   const dimensionProps = {
     width: dimensions.width + 'px',
@@ -73,11 +74,18 @@ div {
           </EyeDropper>
           <input
             type="text"
-            value={color}
+            value={color.hex()}
             style={{
-              backgroundColor: color,
-              color: '#616161',
-              textShadow: '#e0e0e0 0.5px 0.5px 0',
+              backgroundColor: color.hex(),
+              color: color.isDark() ? 'white' : 'black',
+              padding: '0.3em',
+              marginTop: '0.5em',
+              width: '5em',
+              border: '1px solid',
+              textAlign: 'center',
+              fontFamily: 'monospace',
+              fontWeight: 'bold',
+              fontSize: '1.3rem',
             }}
             readOnly
           />
