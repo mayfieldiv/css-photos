@@ -20,7 +20,7 @@ export function HtmlEditor(props: HtmlEditorProps) {
         defaultValue={props.defaultValue}
         onChange={(value) => props.onChange?.(value)}
         options={{
-          scrollbar: { alwaysConsumeMouseWheel: false },
+          // scrollbar: { alwaysConsumeMouseWheel: false },
           scrollBeyondLastLine: false,
         }}
       ></Editor>
