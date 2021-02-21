@@ -1,8 +1,9 @@
 import 'normalize.css';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import ox from './ox.png';
 
-import { HtmlEditor, HtmlPreview } from '@css-photos/ui';
+import { EyeDropper, HtmlEditor, HtmlPreview } from '@css-photos/ui';
 
 const StyledApp = styled.div`
   display: flex;
@@ -24,13 +25,15 @@ const Column = styled.div<{ minWidth: string; minHeight: string }>`
   min-width: ${(props) => props.minWidth};
   min-height: ${(props) => props.minHeight};
   padding: 1.25rem;
-  border-left: 1px solid;
+  border-left: 1px solid #27313a;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 export function App() {
-  const [htmlSource, setHtmlSource] = useState(`<div></div>
+  const [htmlSource, setHtmlSource] = useState(`\
+<div></div>
 <style>
 body {
   margin: 0;
@@ -41,7 +44,8 @@ div {
 }
 </style>
 `);
-  const [dimensions, setDimensions] = useState({ width: 400, height: 300 });
+  const [dimensions, setDimensions] = useState({ width: 400, height: 350 });
+  const [color, setColor] = useState('#000000');
 
   const dimensionProps = {
     width: dimensions.width + 'px',
@@ -64,7 +68,19 @@ div {
           minWidth={dimensionProps.width}
           minHeight={dimensionProps.height}
         >
-          <img src="https://cssbattle.dev/targets/7.png" {...dimensionProps} />
+          <EyeDropper onColorPick={setColor}>
+            <img src={ox} {...dimensionProps} />
+          </EyeDropper>
+          <input
+            type="text"
+            value={color}
+            style={{
+              backgroundColor: color,
+              color: '#616161',
+              textShadow: '#e0e0e0 0.5px 0.5px 0',
+            }}
+            readOnly
+          />
         </Column>
       </StyledApp>
     </React.StrictMode>

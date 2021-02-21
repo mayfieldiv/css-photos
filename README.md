@@ -13,7 +13,8 @@
 2. html/css editor
 
    - [x] monaco
-   - [ ] css intellisense inside html?
+   - [ ] css intellisense inside html? looks like no (https://github.com/microsoft/monaco-editor/issues/732)
+   - [ ] split out css/html editors for intellisense
 
 3. html/css preview
 
