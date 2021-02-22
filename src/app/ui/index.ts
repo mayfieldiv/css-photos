@@ -1,3 +1,5 @@
 export * from "./eye-dropper"
 export * from "./html-editor"
 export * from "./html-preview"
+export * from "./target-image"
+export * from "./target-panel"

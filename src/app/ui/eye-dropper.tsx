@@ -1,6 +1,5 @@
 import Color from "color"
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
-import styled from "styled-components"
 
 export interface EyeDropperProps {
   disabled?: boolean
