@@ -11,6 +11,7 @@ const Preview = styled.iframe`
   background: white;
   border: 0;
   outline: 0;
+  pointer-events: none;
 `
 
 export class HtmlPreview extends React.PureComponent<HtmlPreviewProps> {

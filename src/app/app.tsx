@@ -2,7 +2,7 @@ import "normalize.css"
 import React, { useState } from "react"
 import styled from "styled-components"
 
-import { HtmlEditor, HtmlPreview, TargetImage, TargetPanel } from "./ui"
+import { ComparisonSlider, HtmlEditor, HtmlPreview, TargetImage, TargetPanel } from "./ui"
 import OxImage from "url:./ox.png"
 
 const StyledApp = styled.div`
@@ -61,7 +61,10 @@ export function App() {
         <HtmlEditor defaultValue={defaultHtmlSource} onChange={setHtmlSource} />
       </EditorContainer>
       <Column style={minDimensionProps}>
-        <HtmlPreview htmlSource={htmlSource} {...dimensionProps} />
+        <ComparisonSlider {...dimensions}>
+          <HtmlPreview htmlSource={htmlSource} {...dimensionProps} />
+          <TargetImage src={OxImage} {...dimensionProps} />
+        </ComparisonSlider>
       </Column>
       <Column style={minDimensionProps}>
         <TargetPanel>

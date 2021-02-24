@@ -15,11 +15,9 @@ export const EyeDropper: FunctionComponent<EyeDropperProps> = (props) => {
   useEffect(() => {
     const img = childElement
     if (img == null) {
-      console.log("childElement is null")
       return
     }
 
-    console.log("childElement useEffect", img)
     const canvas = document.createElement("canvas")
     canvas.width = img.width
     canvas.height = img.height
@@ -36,7 +34,6 @@ export const EyeDropper: FunctionComponent<EyeDropperProps> = (props) => {
     }
     const context = canvasRef.current?.getContext("2d")
     if (context == null || childElement == null) {
-      console.log("canvas/image is null")
       return
     }
 
@@ -50,11 +47,9 @@ export const EyeDropper: FunctionComponent<EyeDropperProps> = (props) => {
     <>
       {React.cloneElement(React.Children.only(props.children as React.ReactElement), {
         onError: () => {
-          console.log("onError")
           setChildElement(undefined)
         },
         onLoad: (event: Event) => {
-          console.log("onLoad")
           setChildElement(event.target as HTMLImageElement)
         },
         onClick: (event: MouseEvent) => {
