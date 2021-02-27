@@ -1,0 +1,8 @@
+name = "css-photos"
+type = "javascript"
+account_id = "46ff1aa2e7f154112213cb471b50d413"
+workers_dev = true
+
+[site]
+bucket = "../dist"
+entry-point = "."
