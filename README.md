@@ -1,5 +1,7 @@
 # css.photos
 
+https://css-photos.mayfield.workers.dev/
+
 ## TODO
 
 1. scorer
